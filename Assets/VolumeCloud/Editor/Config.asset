@@ -21,10 +21,8 @@ MonoBehaviour:
   first3DTexGenerator:
     texResolution: 128
     perlinOctaves: 3
-    channel1PerlinPeriod: 16
+    channel1PerlinPeriod: 8
     channel2WorleyPeriod: 16
-    channel3WorleyPeriod: 32
-    channel4WorleyPeriod: 64
   first3DTexSaveName: First3DTexAlter
   second3DTexGenerator:
     texResolution: 32

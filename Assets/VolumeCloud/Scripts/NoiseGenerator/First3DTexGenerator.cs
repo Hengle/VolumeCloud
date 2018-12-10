@@ -6,19 +6,27 @@ using UnityEngine;
 namespace Yangrc.VolumeCloud {
     [System.Serializable]
     public class First3DTexGenerator : ITextureGenerator {
+
+        float RemapClamped(float original_value, float original_min, float original_max, float new_min, float new_max) {
+            return new_min + (Mathf.Clamp01((original_value - original_min) / (original_max - original_min)) * (new_max - new_min));
+        }
+
         public int texResolution = 32;
         public int perlinOctaves = 4;
         public int channel1PerlinPeriod = 16;
         public int channel2WorleyPeriod = 16;
-        public int channel3WorleyPeriod = 32;
-        public int channel4WorleyPeriod = 64;
-
+        
         public Color Sample(Vector3 pos) {
             Color res = new Color();
-            res.r = PerlinNoiseGenerator.OctaveNoise(pos, channel1PerlinPeriod, perlinOctaves);
-            res.g = WorleyNoiseGenerator.OctaveNoise(pos, channel2WorleyPeriod, 3);
-            res.b = WorleyNoiseGenerator.OctaveNoise(pos, channel3WorleyPeriod, 3);
-            res.a = WorleyNoiseGenerator.OctaveNoise(pos, channel4WorleyPeriod, 3);
+
+            float perlin = 0.0f;
+            perlin = PerlinNoiseGenerator.OctaveNoise(pos, channel1PerlinPeriod, perlinOctaves);
+
+            float worley = 0.0f;
+            worley += WorleyNoiseGenerator.OctaveNoise(pos, channel2WorleyPeriod, 3);
+            
+            var finalResult = RemapClamped(perlin, -worley, 1.0f, 0.0f, 1.0f);
+            res.r = finalResult;
             return res;
         }
     }
@@ -32,9 +40,6 @@ namespace Yangrc.VolumeCloud {
         public Color Noise(Vector3 pos) {
             Color res = new Color();
             res.r = WorleyNoiseGenerator.OctaveNoise(pos, channel1WorleyFreq, 3);
-            res.g = WorleyNoiseGenerator.OctaveNoise(pos, channel2WorleyFreq, 3);
-            res.b = WorleyNoiseGenerator.OctaveNoise(pos, channel3WorleyFreq, 3);
-            res.a = 1.0f;
             return res;
         }
 

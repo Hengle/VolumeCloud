@@ -48,7 +48,7 @@ namespace Yangrc.VolumeCloud {
             EditorGUI.BeginChangeCheck();
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height));
             //Test only.
-            EditorGUILayout.BeginHorizontal();//Second 3d tex.
+            EditorGUILayout.BeginHorizontal();//Test.
             {
                 EditorGUILayout.BeginVertical();
                 {   //Config area.
@@ -87,7 +87,7 @@ namespace Yangrc.VolumeCloud {
                     if (configSO.FindProperty("first3DTexGenerator").isExpanded) {
                         EditorGUILayout.PropertyField(configSO.FindProperty("first3DTexSaveName"));
                         if (GUILayout.Button("Save tex")) {
-                            var texture = Utils.GetTex(config.first3DTexGenerator, config.first3DTexGenerator.texResolution);
+                            var texture = Utils.GetTex(config.first3DTexGenerator, config.first3DTexGenerator.texResolution, TextureFormat.RFloat);
                             AssetDatabase.CreateAsset(texture, "Assets/VolumeCloud/" + config.first3DTexSaveName + ".asset");
                             AssetDatabase.SaveAssets();
                         }
@@ -97,7 +97,7 @@ namespace Yangrc.VolumeCloud {
                 EditorGUILayout.BeginVertical(GUILayout.Width(256.0f)); ;
                 {
                     if (GUILayout.Button("Preview"))
-                        firstTexPreview = Utils.GetPreviewTex(config.first3DTexGenerator, config.first3DTexGenerator.texResolution);
+                        firstTexPreview = Utils.GetPreviewTex(config.first3DTexGenerator, config.first3DTexGenerator.texResolution, TextureFormat.RFloat);
                     if (firstTexPreview != null)
                         GUI.DrawTexture(EditorGUILayout.GetControlRect(false, GUILayout.Width(256.0f), GUILayout.Height(256.0f)), firstTexPreview);
                 }
@@ -113,7 +113,7 @@ namespace Yangrc.VolumeCloud {
                     if (configSO.FindProperty("second3DTexGenerator").isExpanded) {
                         EditorGUILayout.PropertyField(configSO.FindProperty("second3DTexSaveName"));
                         if (GUILayout.Button("Save tex")) {
-                            var texture = Utils.GetTex(config.second3DTexGenerator, config.second3DTexGenerator.texResolution, TextureFormat.RGB24);
+                            var texture = Utils.GetTex(config.second3DTexGenerator, config.second3DTexGenerator.texResolution, TextureFormat.RFloat);
                             AssetDatabase.CreateAsset(texture, "Assets/VolumeCloud/" + config.second3DTexSaveName + ".asset");
                             AssetDatabase.SaveAssets();
                         }
@@ -123,7 +123,7 @@ namespace Yangrc.VolumeCloud {
                 EditorGUILayout.BeginVertical(GUILayout.Width(256.0f)); //Preview Area
                 {
                     if (GUILayout.Button("Preview")) {
-                        secondTexPreview = Utils.GetPreviewTex(config.second3DTexGenerator, config.second3DTexGenerator.texResolution);
+                        secondTexPreview = Utils.GetPreviewTex(config.second3DTexGenerator, config.second3DTexGenerator.texResolution, TextureFormat.RFloat);
                     }
                     if (secondTexPreview != null) {
                         GUI.DrawTexture(EditorGUILayout.GetControlRect(false, GUILayout.Width(256.0f), GUILayout.Height(256.0f)), secondTexPreview);
